@@ -1,0 +1,88 @@
+<div *ngIf="!isConnected" id="username-page">
+  <div class="username-page-container">
+    <h1 class="title">Type your username to join the Chatroom</h1>
+
+    <form (ngSubmit)="connect()">
+      <div class="form-group">
+        <input
+          [(ngModel)]="username"
+          name="username"
+          type="text"
+          id="name"
+          placeholder="Username"
+          autocomplete="off"
+          class="form-control"
+          [disabled]="isConnecting"
+        />
+      </div>
+
+      <div class="form-group">
+        <button 
+          type="submit" 
+          class="accent username-submit"
+          [disabled]="isConnecting"
+        >
+          {{ isConnecting ? 'Connecting...' : 'Start Chatting' }}
+        </button>
+      </div>
+    </form>
+
+    <div *ngIf="connectingMessage" class="connecting">
+      {{ connectingMessage }}
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isConnected" id="chatroom">
+  <div class="chat-container">
+    <div class="chat-header">
+      <h2>Chatroom</h2>
+    </div>
+
+    <ul id="messageArea">
+      <li
+        *ngFor="let message of messages"
+        [ngClass]="{
+          'event-message': message.type !== 'CHAT',
+          'chat-message': message.type === 'CHAT'
+        }"
+      >
+        <i
+          *ngIf="message.type === 'CHAT'"
+          [style.backgroundColor]="getAvatarColor(message.sender)"
+          >{{ message.sender.charAt(0) }}</i
+        >
+
+        <span *ngIf="message.type === 'CHAT'">{{ message.sender }}</span>
+
+        <p>
+          {{
+            message.type === "CHAT"
+              ? message.content
+              : message.sender +
+                " " +
+                (message.type === "JOIN" ? "joined!" : "left!")
+          }}
+        </p>
+      </li>
+    </ul>
+
+    <form (ngSubmit)="sendMessage()" id="typingArea">
+      <div class="form-group">
+        <div class="input-group clearfix">
+          <input
+            [(ngModel)]="message"
+            name="message"
+            type="text"
+            id="message"
+            placeholder="Write a message..."
+            autocomplete="off"
+            class="form-control"
+          />
+
+          <button type="submit" class="primary">Send</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

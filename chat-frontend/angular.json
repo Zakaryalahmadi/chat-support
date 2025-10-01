@@ -18,6 +18,7 @@
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
+            "polyfills": ["src/polyfills.ts"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "sass",
             "assets": [
@@ -26,9 +27,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.sass"
-            ]
+            "styles": ["src/styles.sass"]
           },
           "configurations": {
             "production": {
@@ -80,9 +79,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.sass"
-            ]
+            "styles": ["src/styles.sass"]
           }
         }
       }
